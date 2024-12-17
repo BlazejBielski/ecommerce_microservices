@@ -3,7 +3,7 @@ name = "auth-service"
 version = "0.1.0"
 description = "auth microservice for users, authentication and authorization"
 authors = ["blazej <bbielski@lyck.pl>"]
-readme = "README.md"
+readme = "README.MD"
 
 [tool.poetry.dependencies]
 python = "^3.12"
