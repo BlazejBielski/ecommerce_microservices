@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.text import slugify
 
 from products.utils import OwnerModel, TimeStampModel
 
@@ -14,3 +15,12 @@ class Product(TimeStampModel, OwnerModel):
     sales_count = models.PositiveIntegerField(default=0)
     barcode = models.CharField(max_length=13, blank=True)
     rank = models.IntegerField(help_text="Rank from review service")
+
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        self.full_clean()
+        super().save(*args, **kwargs)
