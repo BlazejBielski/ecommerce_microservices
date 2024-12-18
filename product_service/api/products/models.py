@@ -15,6 +15,7 @@ class Product(TimeStampModel, OwnerModel):
     sales_count = models.PositiveIntegerField(default=0)
     barcode = models.CharField(max_length=13, blank=True)
     rank = models.IntegerField(help_text="Rank from review service")
+    owner = models.IntegerField(help_text="Owner of the product from auth service")
 
     def __str__(self):
         return self.name
