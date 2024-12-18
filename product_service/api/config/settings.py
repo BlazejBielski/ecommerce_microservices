@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     # third part
     'rest_framework',
     'drf_spectacular',
+    'django_filters',
     # apps
     'products.apps.ProductsConfig',
 
