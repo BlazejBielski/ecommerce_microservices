@@ -34,6 +34,21 @@ tests = ["cloudpickle", "hypothesis", "mypy (>=1.11.1)", "pympler", "pytest (>=4
 tests-mypy = ["mypy (>=1.11.1)", "pytest-mypy-plugins"]
 
 [[package]]
+name = "dj-database-url"
+version = "2.3.0"
+description = "Use Database URLs in your Django Application."
+optional = false
+python-versions = "*"
+files = [
+    {file = "dj_database_url-2.3.0-py3-none-any.whl", hash = "sha256:bb0d414ba0ac5cd62773ec7f86f8cc378a9dbb00a80884c2fc08cc570452521e"},
+    {file = "dj_database_url-2.3.0.tar.gz", hash = "sha256:ae52e8e634186b57e5a45e445da5dc407a819c2ceed8a53d1fac004cc5288787"},
+]
+
+[package.dependencies]
+Django = ">=4.2"
+typing_extensions = ">=3.10.0.0"
+
+[[package]]
 name = "django"
 version = "5.1.2"
 description = "A high-level Python web framework that encourages rapid development and clean, pragmatic design."
@@ -428,4 +443,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "d048e436519a492eb393b8d7ec2652ff0670b2f2d5fff772e34e88767f99a8a6"
+content-hash = "98e64c64416a66c292529b80ad301f052c6540779dce45dc62beb3dfa453509d"
