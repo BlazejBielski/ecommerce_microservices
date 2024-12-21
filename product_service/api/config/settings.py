@@ -9,10 +9,14 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import logging.config
+import os
+import socket
 from pathlib import Path
+import dj_database_url
 
 import products
+from . import settings_logging
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -89,6 +93,11 @@ DATABASES = {
     }
 }
 
+DATABASE_URL = os.environ.get("DB_CONNECTION_STRING")
+db_from_env = dj_database_url.config(default=DATABASE_URL, conn_max_age=500, ssl_require=False)
+
+DATABASES["default"].update(db_from_env)
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -124,9 +133,48 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = "/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+AUTH_USER_MODEL = "users.CustomUser"
+
+IMAGES_TYPES = ["jpg", "png", "jpeg"]
+
+MAX_UPLOAD_SIZE = 512000  # 500kb
+
+# LoggingF
+
+LOGGING_CONFIG = None
+
+logging.config.dictConfig(settings_logging.get_logger_config(BASE_DIR))
+
+# Django Debug Toolbar
+
+hostname, _, nginx_ips = socket.gethostbyname_ex("proxy")
+INTERNAL_IPS = nginx_ips
+
+# DRF
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 10,
+}
+
+# Spectacular
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Your Project API',
+    'DESCRIPTION': 'Your project description',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+}
