@@ -1,0 +1,44 @@
+services:
+  auth_service:
+    build:
+      context: ./auth_service/api
+      dockerfile: Dockerfile
+    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    restart: on-failure
+    env_file:
+      - ./auth_service/envs/.api.env
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./auth_service/api:/app:delegated
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+    depends_on:
+      - auth_db
+    networks:
+      - auth_service_network
+
+  auth_db:
+    image: postgres:17.2
+    volumes:
+      - auth_db_volume:/var/lib/postgresql/data
+    env_file:
+      - auth_service/envs/.db.env
+    ports:
+      - "5432:5432"
+    networks:
+      - auth_db_network
+
+  redis:
+    image: redis:8.0-M02
+
+volumes:
+  auth_db_volume:
+  static_volume:
+  media_volume:
+
+networks:
+  auth_service_network:
+    driver: bridge
+  auth_db_network:
+    driver: bridge
