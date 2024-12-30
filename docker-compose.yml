@@ -8,13 +8,14 @@ services:
     env_file:
       - ./auth_service/envs/.api.env
     ports:
-      - "8000:8000"
+      - "8001:8000"
     volumes:
       - ./auth_service/api:/app:delegated
       - static_volume:/app/staticfiles
       - media_volume:/app/media
     depends_on:
       - auth_db
+      - redis
     networks:
       - auth_service_network
 
@@ -29,6 +30,34 @@ services:
     networks:
       - auth_db_network
 
+  product_service:
+    build:
+      context: ./product_service/api
+      dockerfile: Dockerfile
+    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    restart: on-failure
+    env_file:
+      - ./product_service/envs/.api.env
+    ports:
+      - "8002:8000"
+    depends_on:
+      - product_db
+      - auth_service
+      - redis
+    networks:
+      - product_service_network
+
+  product_db:
+    image: postgres:17.2
+    volumes:
+      - product_db_volume:/var/;ib/postgresql/data
+    env_file:
+      - product_service/envs/.db.env
+    ports:
+      - "5433:5432"
+    networks:
+      - product_db_network
+
   redis:
     image: redis:8.0-M02
 
@@ -36,9 +65,14 @@ volumes:
   auth_db_volume:
   static_volume:
   media_volume:
+  product_db_volume:
 
 networks:
   auth_service_network:
     driver: bridge
   auth_db_network:
+    driver: bridge
+  product_service_network:
+    driver: bridge
+  product_db_network:
     driver: bridge
