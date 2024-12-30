@@ -156,25 +156,32 @@ LOGGING_CONFIG = None
 
 logging.config.dictConfig(settings_logging.get_logger_config(BASE_DIR))
 
-# Django Debug Toolbar
-
-hostname, _, nginx_ips = socket.gethostbyname_ex("proxy")
-INTERNAL_IPS = nginx_ips
-
 # DRF
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
+    # TODO: remove basic authentication class when JWT authentication is set for project
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.BasicAuthentication",
+        # "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
+
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 10,
 }
 
+# Redis cache
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+        'LOCATION': 'redis://redis:6379/1',
+    }
+}
+
+
 # Spectacular
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'Your Project API',
-    'DESCRIPTION': 'Your project description',
+    'TITLE': 'Product service API',
+    'DESCRIPTION': 'Product microservice',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
 }
