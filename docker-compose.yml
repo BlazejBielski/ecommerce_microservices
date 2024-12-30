@@ -9,6 +9,8 @@ services:
       - ./auth_service/envs/.api.env
     ports:
       - "8001:8000"
+    environment:
+      - CONSUL_HTTP_ADR=http://consul:8500
     volumes:
       - ./auth_service/api:/app:delegated
       - static_volume:/app/staticfiles
@@ -16,6 +18,7 @@ services:
     depends_on:
       - auth_db
       - redis
+      - consul
     networks:
       - auth_service_network
 
@@ -40,10 +43,13 @@ services:
       - ./product_service/envs/.api.env
     ports:
       - "8002:8000"
+    environment:
+      - CONSUL_HTTP_ADR=http://consul:8500
     depends_on:
       - product_db
       - auth_service
       - redis
+      - consul
     networks:
       - product_service_network
 
@@ -60,6 +66,12 @@ services:
 
   redis:
     image: redis:8.0-M02
+
+  consul:
+    image: consul:1.12.9
+    ports:
+      - "8500:8500"
+    command: consul agent -dev -client=0.0.0.0
 
 volumes:
   auth_db_volume:
