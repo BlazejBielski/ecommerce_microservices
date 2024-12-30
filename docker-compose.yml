@@ -73,6 +73,17 @@ services:
       - "8500:8500"
     command: consul agent -dev -client=0.0.0.0
 
+  kong:
+    image: kong:3.9.0
+    ports:
+      - "8000:8000"
+      - "8001:8001"
+    environment:
+      KONG_DATABASE: "off"
+      KONG_DECLARATIVE_CONFIG: "/usr/local/kong/declarative/kong.yml"
+    volumes:
+      - ./api_gateway/kong.yml:/usr/local/kong/declarative/kong.yml
+
 volumes:
   auth_db_volume:
   static_volume:
