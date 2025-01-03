@@ -60,13 +60,25 @@ services:
     container_name: product_db
     image: postgres:17.2
     volumes:
-      - product_db_volume:/var/;ib/postgresql/data
+      - product_db_volume:/var/lib/postgresql/data
     env_file:
       - product_service/envs/.db.env
     ports:
       - "5433:5432"
     networks:
       - product_db_network
+
+  krakend:
+    image: devopsfaith/krakend:2.8
+    container_name: krakend
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./api_gateway/krakend.json:/etc/krakend/krakend.json
+    command: ["run", "-c", "/etc/krakend/krakend.json"]
+    networks:
+      - auth_service_network
+      - product_service_network
 
   redis:
     container_name: redis
@@ -81,20 +93,6 @@ services:
       - "8500:8500"
     command: consul agent -dev -client=0.0.0.0
 
-  kong:
-    container_name: kong
-    image: kong:3.9.0
-    ports:
-      - "8000:8000"
-      - "8088:8001"
-    environment:
-      KONG_DATABASE: "off"
-      KONG_DECLARATIVE_CONFIG: "/usr/local/kong/declarative/kong.yml"
-    volumes:
-      - ./api_gateway/kong.yml:/usr/local/kong/declarative/kong.yml
-    networks:
-      - auth_service_network
-      - product_service_network
 
   service_discovery:
     container_name: service_discovery
