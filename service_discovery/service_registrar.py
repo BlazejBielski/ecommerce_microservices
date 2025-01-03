@@ -2,7 +2,7 @@ import docker
 import requests
 
 
-CONSUL_URL = "http://consul:8500/v1/agent/service/egister"
+CONSUL_URL = "http://consul:8500//v1/agent/service/register"
 
 def get_running_services():
     client = docker.from_env()
@@ -16,22 +16,34 @@ def get_running_services():
         if ports:
             for port, bindings in ports.items():
                 if bindings:
+                    numeric_port = int(port.split('/')[0])
                     services.append({
                         'service_name': service_name,
                         'ip': ip,
-                        'port': port,
+                        'port': numeric_port,
                     })
     return services
 
-def register_service_in_consul(service):
-    response = requests.put(CONSUL_URL, json=service)
-    if response.status_code == 200:
-        print(f"Successfully registered service {service['Name']} in Consul")
-    else:
-        print(f"Failed to register service {service['Name']} in Consul with error {response.text}")
+def register_service(service_name, service_id, address, port):
+    payload = {
+        "Name": service_name,
+        "ID": service_id,
+        "Address": address,
+        "Port": port
+    }
+    try:
+        response = requests.put(CONSUL_URL, json=payload)
+        response.raise_for_status()
+        print(f"Service {service_name} registered successfully.")
+    except requests.exceptions.RequestException as e:
+        print(f"Failed to register service {service_name} with error: {e}")
 
 
 if __name__ == '__main__':
     services = get_running_services()
     for service in services:
-        register_service_in_consul(service)
+        service_name = service['service_name']
+        ip = service['ip']
+        port = service['port']
+        service_id = f"{service_name}-{port}"
+        register_service(service_name, service_id, ip, port)

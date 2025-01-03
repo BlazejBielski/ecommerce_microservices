@@ -1,5 +1,6 @@
 services:
   auth_service:
+    container_name: auth_service
     build:
       context: ./auth_service/api
       dockerfile: Dockerfile
@@ -23,6 +24,7 @@ services:
       - auth_service_network
 
   auth_db:
+    container_name: auth_db
     image: postgres:17.2
     volumes:
       - auth_db_volume:/var/lib/postgresql/data
@@ -34,6 +36,7 @@ services:
       - auth_db_network
 
   product_service:
+    container_name: product_service
     build:
       context: ./product_service/api
       dockerfile: Dockerfile
@@ -54,6 +57,7 @@ services:
       - product_service_network
 
   product_db:
+    container_name: product_db
     image: postgres:17.2
     volumes:
       - product_db_volume:/var/;ib/postgresql/data
@@ -65,24 +69,42 @@ services:
       - product_db_network
 
   redis:
+    container_name: redis
     image: redis:8.0-M02
+    ports:
+      - "6379:6379"
 
   consul:
+    container_name: consul
     image: consul:1.12.9
     ports:
       - "8500:8500"
     command: consul agent -dev -client=0.0.0.0
 
   kong:
+    container_name: kong
     image: kong:3.9.0
     ports:
       - "8000:8000"
-      - "8001:8001"
+      - "8088:8001"
     environment:
       KONG_DATABASE: "off"
       KONG_DECLARATIVE_CONFIG: "/usr/local/kong/declarative/kong.yml"
     volumes:
       - ./api_gateway/kong.yml:/usr/local/kong/declarative/kong.yml
+    networks:
+      - auth_service_network
+      - product_service_network
+
+  service_discovery:
+    container_name: service_discovery
+    build:
+      context: ./service_discovery
+      dockerfile: Dockerfile
+    depends_on:
+      - consul
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
 
 volumes:
   auth_db_volume:
@@ -92,10 +114,12 @@ volumes:
 
 networks:
   auth_service_network:
+    name: auth_service_network
     driver: bridge
   auth_db_network:
     driver: bridge
   product_service_network:
+    name: product_service_network
     driver: bridge
   product_db_network:
     driver: bridge
