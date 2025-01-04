@@ -1,5 +1,6 @@
 services:
   auth_service:
+    container_name: auth_service
     build:
       context: ./auth_service/api
       dockerfile: Dockerfile
@@ -8,17 +9,22 @@ services:
     env_file:
       - ./auth_service/envs/.api.env
     ports:
-      - "8000:8000"
+      - "8001:8000"
+    environment:
+      - CONSUL_HTTP_ADR=http://consul:8500
     volumes:
       - ./auth_service/api:/app:delegated
       - static_volume:/app/staticfiles
       - media_volume:/app/media
     depends_on:
       - auth_db
+      - redis
+      - consul
     networks:
       - auth_service_network
 
   auth_db:
+    container_name: auth_db
     image: postgres:17.2
     volumes:
       - auth_db_volume:/var/lib/postgresql/data
@@ -29,16 +35,89 @@ services:
     networks:
       - auth_db_network
 
+  product_service:
+    container_name: product_service
+    build:
+      context: ./product_service/api
+      dockerfile: Dockerfile
+    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    restart: on-failure
+    env_file:
+      - ./product_service/envs/.api.env
+    ports:
+      - "8002:8000"
+    environment:
+      - CONSUL_HTTP_ADR=http://consul:8500
+    depends_on:
+      - product_db
+      - auth_service
+      - redis
+      - consul
+    networks:
+      - product_service_network
+
+  product_db:
+    container_name: product_db
+    image: postgres:17.2
+    volumes:
+      - product_db_volume:/var/lib/postgresql/data
+    env_file:
+      - product_service/envs/.db.env
+    ports:
+      - "5433:5432"
+    networks:
+      - product_db_network
+
+  krakend:
+    image: devopsfaith/krakend:2.8
+    container_name: krakend
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./api_gateway/krakend.json:/etc/krakend/krakend.json
+    command: ["run", "-c", "/etc/krakend/krakend.json"]
+    networks:
+      - auth_service_network
+      - product_service_network
+
   redis:
+    container_name: redis
     image: redis:8.0-M02
+    ports:
+      - "6379:6379"
+
+  consul:
+    container_name: consul
+    image: consul:1.12.9
+    ports:
+      - "8500:8500"
+    command: consul agent -dev -client=0.0.0.0
+
+
+  service_discovery:
+    container_name: service_discovery
+    build:
+      context: ./service_discovery
+      dockerfile: Dockerfile
+    depends_on:
+      - consul
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
 
 volumes:
   auth_db_volume:
   static_volume:
   media_volume:
+  product_db_volume:
 
 networks:
   auth_service_network:
+    name: auth_service_network
     driver: bridge
   auth_db_network:
+    driver: bridge
+  product_service_network:
+    name: product_service_network
+    driver: bridge
+  product_db_network:
     driver: bridge
