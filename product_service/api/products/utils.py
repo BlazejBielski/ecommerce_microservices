@@ -10,7 +10,7 @@ class TimeStampModel(models.Model):
 
 
 class OwnerModel(models.Model):
-    user_id = models.IntegerField(help_text="User id from auth service")
+    user_id = models.UUIDField(help_text="User id from auth service")
 
     class Meta:
         abstract = True
