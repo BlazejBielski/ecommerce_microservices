@@ -15,6 +15,7 @@ def create_superuser(apps, schema_editor):
         email=DJ_SU_EMAIL,
         password=DJ_SU_PASSWORD,
     )
+    User.is_active = True
 
 
 def delete_superuser(apps, schema_editor):
