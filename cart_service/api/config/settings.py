@@ -161,3 +161,11 @@ CACHES = {
         'LOCATION': 'redis://redis:6379/1',
     }
 }
+
+# Spectacular
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Product service API',
+    'DESCRIPTION': 'Product microservice',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+}
