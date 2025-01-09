@@ -21,7 +21,7 @@ services:
       - redis
       - consul
     networks:
-      - auth_service_network
+      - backend_services
 
   auth_db:
     container_name: auth_db
@@ -33,7 +33,7 @@ services:
     ports:
       - "5432:5432"
     networks:
-      - auth_db_network
+      - backend_services
 
   product_service:
     container_name: product_service
@@ -54,7 +54,7 @@ services:
       - redis
       - consul
     networks:
-      - product_service_network
+      - backend_services
 
   product_db:
     container_name: product_db
@@ -66,41 +66,60 @@ services:
     ports:
       - "5433:5432"
     networks:
-      - product_db_network
+      - backend_services
 
-  krakend:
-    image: devopsfaith/krakend:2.8
-    container_name: krakend
-    ports:
-      - "8080:8080"
-    volumes:
-      - ./api_gateway/krakend.json:/etc/krakend/krakend.json
-    command: ["run", "-c", "/etc/krakend/krakend.json"]
+  kong:
+    image: kong:3.0.0-alpine
+    container_name: kong
+    restart: always
+    environment:
+      - KONG_DATABASE=off
+      - KONG_PROXY_ACCESS_LOG=/dev/stdout
+      - KONG_PROXY_ERROR_LOG=/dev/stderr
+      - KONG_ADMIN_ACCESS_LOG=/dev/stdout
+      - KONG_ADMIN_ERROR_LOG=/dev/stderr
+      - KONG_ADMIN_LISTEN=0.0.0.0:8081
+      - KONG_DISCOVERY=consul
+      - KONG_CONTACT_POINTS=consul:8500
+      - KONG_PORT=8080
+    depends_on:
+      - consul
     networks:
-      - auth_service_network
-      - product_service_network
+      - backend_services
+    ports:
+      - "8080:8080"  # Proxy port
+      - "8081:8081"  # Admin API port
 
   redis:
     container_name: redis
     image: redis:8.0-M02
     ports:
       - "6379:6379"
+    networks:
+      - backend_services
 
   consul:
     container_name: consul
     image: consul:1.12.9
     ports:
       - "8500:8500"
+      - "8600:8600/udp"
+      - "8600:8600"
+    environment:
+      CONSUL_LOCAL_CONFIG: '{"enable_service_discovery": true}'
     command: consul agent -dev -client=0.0.0.0
+    networks:
+      - backend_services
 
-
-  service_discovery:
-    container_name: service_discovery
+  service_registrar:
+    container_name: service_registrar
     build:
       context: ./service_discovery
       dockerfile: Dockerfile
     depends_on:
       - consul
+    networks:
+      - backend_services
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 
@@ -109,15 +128,8 @@ volumes:
   static_volume:
   media_volume:
   product_db_volume:
+  kong-config:
 
 networks:
-  auth_service_network:
-    name: auth_service_network
-    driver: bridge
-  auth_db_network:
-    driver: bridge
-  product_service_network:
-    name: product_service_network
-    driver: bridge
-  product_db_network:
+  backend_services:
     driver: bridge
