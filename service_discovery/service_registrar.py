@@ -2,7 +2,7 @@ import docker
 import requests
 
 
-CONSUL_URL = "http://consul:8500//v1/agent/service/register"
+CONSUL_URL = "http://consul:8500/v1/agent/service/register"
 
 def get_running_services():
     client = docker.from_env()
@@ -11,7 +11,7 @@ def get_running_services():
     for container in client.containers.list():
         container_info = container.attrs
         service_name = container.name
-        ip = container_info['NetworkSettings']['IPAddress']
+        ip = next(iter(container_info['NetworkSettings']['Networks'].values()))['IPAddress']
         ports = container_info['NetworkSettings']['Ports']
         if ports:
             for port, bindings in ports.items():
@@ -23,6 +23,7 @@ def get_running_services():
                         'port': numeric_port,
                     })
     return services
+
 
 def register_service(service_name, service_id, address, port):
     payload = {
