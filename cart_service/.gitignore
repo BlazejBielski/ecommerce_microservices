@@ -6,3 +6,6 @@
 **/*.pyc
 
 api/db.sqlite3
+
+envs/api.env
+envs/db.env
