@@ -3,12 +3,12 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 import requests
 
-from api.cart.models import Cart, CartItem
+from cart.models import Cart, CartItem
 
 
 class CartView(APIView):
     def get(self,request, user_id):
-        auth_response = request.get(f"http://auth_service/users/{user_id}")
+        auth_response = requests.get(f"http://auth_service/users/{user_id}")
         if auth_response.status_code != 200:
             return Response(auth_response.json(), status=status.HTTP_401_UNAUTHORIZED)
 
@@ -18,7 +18,7 @@ class CartView(APIView):
 
         items = []
         for item in cart.items.all():
-            product_response = request.get(f"http://product_service/products/{item.product_id}")
+            product_response = requests.get(f"http://product_service/products/{item.product_id}")
             if product_response.status_code == 200:
                 product_data = product_response.json()
                 items.append({
@@ -39,11 +39,11 @@ class AddItemView(APIView):
         product_id = data.get('product_id')
         quantity = data.get('quantity', 1)
 
-        auth_response = request.get(f"http://auth_service/users/{user_id}")
+        auth_response = requests.get(f"http://auth_service/users/{user_id}")
         if auth_response.status_code != 200:
             return Response(auth_response.json(), status=status.HTTP_401_UNAUTHORIZED)
 
-        product_response = request.get(f"http://product_service/products/{product_id}")
+        product_response = requests.get(f"http://product_service/products/{product_id}")
         if product_response.status_code != 200:
             return Response(product_response.json(), status=status.HTTP_400_BAD_REQUEST)
 
