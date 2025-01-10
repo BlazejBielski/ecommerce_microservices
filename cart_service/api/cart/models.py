@@ -2,7 +2,7 @@ import uuid
 
 from django.db import models
 
-from api.cart.utils import TimeStampModel, OwnerModel
+from cart.utils import TimeStampModel, OwnerModel
 
 
 class Cart(TimeStampModel, OwnerModel):
