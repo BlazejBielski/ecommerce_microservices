@@ -76,14 +76,15 @@ services:
     command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     restart: on-failure
     env_file:
-      - ./product_service/envs/api.env
+      - ./cart_service/envs/api.env
     ports:
       - "8003:8000"
     environment:
       - CONSUL_HTTP_ADR=http://consul:8500
     depends_on:
-      - product_db
+      - cart_db
       - auth_service
+      - product_service
       - redis
       - consul
     networks:
