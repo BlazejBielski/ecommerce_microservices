@@ -165,8 +165,8 @@ CACHES = {
 
 # Spectacular
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'Product service API',
-    'DESCRIPTION': 'Product microservice',
+    'TITLE': 'Cart service API',
+    'DESCRIPTION': 'Cart microservice',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
 }
