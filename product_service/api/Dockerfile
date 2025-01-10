@@ -15,5 +15,3 @@ RUN poetry config virtualenvs.create false && \
     poetry install --no-dev --no-interaction --no-ansi
 
 COPY . /app/
-
-CMD python manage.py runserver 0.0.0.0:8000
