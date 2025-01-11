@@ -25,6 +25,7 @@ The project uses the following technologies:
 7. Postrgesql was used as a RDBMS
 8. Redis was used as a Cache
 9. JWT is the key to securing web applications
+All microservices have they own instance of database
 
 Consul service discovery and load balancer
 http://localhost:8500/
@@ -33,12 +34,19 @@ http://localhost:8500/
 ## API's Documentation
 
 Auth service API
+
 http://localhost:8001/api/schema/swagger-ui/#/
+
 Product service API
+
 http://localhost:8002/api/schema/swagger-ui/#/
+
 Cart service API
+
 http://localhost:8003/api/schema/swagger-ui/#/
+
 Reviews
+
 http://localhost:8004/api/schema/swagger-ui/#/
 
 
