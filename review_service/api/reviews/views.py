@@ -9,7 +9,7 @@ from .models import Review
 
 import requests
 
-from .serialziers import ReviewSerializer
+from .serialziers import ReviewSerializer, ReviewDetailSerializer
 from .utils import get_user_details, verify_product
 
 
