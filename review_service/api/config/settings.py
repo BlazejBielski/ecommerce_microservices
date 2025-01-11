@@ -141,3 +141,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #Logging
 LOGGING_CONFIG = None
 logging.config.dictConfig(settings_logging.get_logger_config(BASE_DIR))
+
+# DRF
+REST_FRAMEWORK = {
+    # TODO: remove basic authentication class when JWT authentication is set for project
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.BasicAuthentication",
+        # "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ],
+
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 10,
+}
