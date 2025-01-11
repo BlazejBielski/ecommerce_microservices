@@ -163,3 +163,10 @@ CACHES = {
     }
 }
 
+# Spectacular
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Reviews service API',
+    'DESCRIPTION': 'Reviews microservice',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+}
