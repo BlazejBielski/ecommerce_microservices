@@ -150,6 +150,7 @@ services:
       - KONG_DISCOVERY=consul
       - KONG_CONTACT_POINTS=consul:8500
       - KONG_PORT=8080
+      - KONG_DNS_RESOLVER=0.0.0.0:8600
     depends_on:
       - consul
     networks:
