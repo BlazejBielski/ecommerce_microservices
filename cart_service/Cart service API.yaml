@@ -1,0 +1,33 @@
+openapi: 3.0.3
+info:
+  title: Cart service API
+  version: 1.0.0
+  description: Cart microservice
+paths:
+  /api/v1/cart/:
+    get:
+      operationId: v1_cart_retrieve
+      tags:
+      - v1
+      security:
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/v1/cart/add/:
+    post:
+      operationId: v1_cart_add_create
+      tags:
+      - v1
+      security:
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic

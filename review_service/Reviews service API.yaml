@@ -1,0 +1,173 @@
+openapi: 3.0.3
+info:
+  title: Reviews service API
+  version: 1.0.0
+  description: Reviews microservice
+paths:
+  /api/v1/reviews/:
+    post:
+      operationId: v1_reviews_create
+      tags:
+      - v1
+      security:
+      - basicAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/reviews/{product_id}/:
+    get:
+      operationId: v1_reviews_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: path
+        name: product_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - v1
+      security:
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedReviewList'
+          description: ''
+  /api/v1/reviews/{review_id}/:
+    get:
+      operationId: v1_reviews_retrieve
+      parameters:
+      - in: path
+        name: review_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - v1
+      security:
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReviewDetail'
+          description: ''
+components:
+  schemas:
+    PaginatedReviewList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Review'
+    Review:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user_id:
+          type: string
+          format: uuid
+          readOnly: true
+          description: User id from auth service
+        product_id:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          description: Product id from product service
+        rating:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          description: Rating out of 5
+        comment:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - product_id
+      - rating
+      - user_id
+    ReviewDetail:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user_id:
+          type: string
+          format: uuid
+          readOnly: true
+          description: User id from auth service
+        product_id:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          description: Product id from product service
+        rating:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          description: Rating out of 5
+        comment:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        user:
+          type: string
+          readOnly: true
+        product_valid:
+          type: boolean
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - product_id
+      - product_valid
+      - rating
+      - user
+      - user_id
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
