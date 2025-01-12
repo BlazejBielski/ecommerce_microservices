@@ -8,6 +8,7 @@ services:
     restart: on-failure
     env_file:
       - ./auth_service/envs/api.env
+      - ./auth_service/envs/db.env
     ports:
       - "8001:8000"
     environment:
@@ -44,6 +45,7 @@ services:
     restart: on-failure
     env_file:
       - ./product_service/envs/api.env
+      - ./product_service/envs/db.env
     ports:
       - "8002:8000"
     environment:
@@ -77,6 +79,7 @@ services:
     restart: on-failure
     env_file:
       - ./cart_service/envs/api.env
+      - ./cart_service/envs/db.env
     ports:
       - "8003:8000"
     environment:
@@ -111,6 +114,7 @@ services:
     restart: on-failure
     env_file:
       - ./review_service/envs/api.env
+      - ./review_service/envs/db.env
     ports:
       - "8004:8000"
     environment:
@@ -130,7 +134,7 @@ services:
     volumes:
       - review_db_volume:/var/lib/postgresql/data
     env_file:
-      - review_service/envs/db.env
+      - ./review_service/envs/db.env
     ports:
       - "5436:5432"
     networks:
@@ -141,16 +145,15 @@ services:
     container_name: kong
     restart: always
     environment:
-      - KONG_DATABASE=off
-      - KONG_PROXY_ACCESS_LOG=/dev/stdout
-      - KONG_PROXY_ERROR_LOG=/dev/stderr
-      - KONG_ADMIN_ACCESS_LOG=/dev/stdout
-      - KONG_ADMIN_ERROR_LOG=/dev/stderr
-      - KONG_ADMIN_LISTEN=0.0.0.0:8081
-      - KONG_DISCOVERY=consul
-      - KONG_CONTACT_POINTS=consul:8500
-      - KONG_PORT=8080
-      - KONG_DNS_RESOLVER=0.0.0.0:8600
+      KONG_DATABASE: "off"
+      KONG_PROXY_ACCESS_LOG: /dev/stdout
+      KONG_PROXY_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_ACCESS_LOG: /dev/stdout
+      KONG_ADMIN_ERROR_LOG: /dev/stderr
+      KONG_PROXY_LISTEN: 0.0.0.0:8080
+      KONG_ADMIN_LISTEN: 0.0.0.0:8081
+      KONG_DNS_RESOLVER: 172.0.0.11:8600
+      KONG_DNS_ORDER: A,SRV
     depends_on:
       - consul
     networks:
@@ -203,4 +206,5 @@ volumes:
 
 networks:
   backend_services:
+    name: backend_services
     driver: bridge
