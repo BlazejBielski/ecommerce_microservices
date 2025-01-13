@@ -44,29 +44,481 @@ All services are available at address:
 ## Class Diagram
 
 ### Auth service
+![class diagram Auth service](auth_service/auth_db.png)
 
 ### Product service
+![class diagram Product service](product_service/product_db.png)
 
 ### Cart service
+![class diagram Cart service](cart_service/cart_db.png)
 
 ### Review service
+![class diagram Review service](review_service/review_db.png)
 
 ## API's Documentation
 
 ### Auth service API
 
 ```http://localhost:8001/api/schema/swagger-ui/#/```
+# Auth Service API
+User and jwt authentication
+
+## Version: 1.0.0
+
+### /api/v1/token/
+
+#### POST
+##### Description:
+
+Takes a set of user credentials and returns an access and refresh JSON web
+token pair to prove the authentication of those credentials.
+
+##### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 |  |
+
+### /api/v1/token/refresh/
+
+#### POST
+##### Description:
+
+Takes a refresh type JSON web token and returns an access type JSON web
+token if the refresh token is valid.
+
+##### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 |  |
+
+### /api/v1/users/
+
+#### GET
+##### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 |  |
+
+##### Security
+
+| Security Schema | Scopes |
+| --- | --- |
+| jwtAuth | |
+
+#### POST
+##### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 |  |
+
+##### Security
+
+| Security Schema | Scopes |
+| --- | --- |
+| jwtAuth | |
+
+#### PUT
+##### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 |  |
+
+##### Security
+
+| Security Schema | Scopes |
+| --- | --- |
+| jwtAuth | |
+
+#### DELETE
+##### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 204 | No response body |
+
+##### Security
+
+| Security Schema | Scopes |
+| --- | --- |
+| jwtAuth | |
+
+### /api/v1/users/{id}/
+
+#### GET
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| id | path |  | Yes | string (uuid) |
+
+##### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 |  |
+
+##### Security
+
+| Security Schema | Scopes |
+| --- | --- |
+| jwtAuth | |
+
+#### POST
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| id | path |  | Yes | string (uuid) |
+
+##### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 |  |
+
+##### Security
+
+| Security Schema | Scopes |
+| --- | --- |
+| jwtAuth | |
+
+#### PUT
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| id | path |  | Yes | string (uuid) |
+
+##### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 |  |
+
+##### Security
+
+| Security Schema | Scopes |
+| --- | --- |
+| jwtAuth | |
+
+#### DELETE
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| id | path |  | Yes | string (uuid) |
+
+##### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 204 | No response body |
+
+##### Security
+
+| Security Schema | Scopes |
+| --- | --- |
+| jwtAuth | |
+
 
 ### Product service API
 
 ```http://localhost:8002/api/schema/swagger-ui/#/```
+# Product service API
+Product microservice
+
+## Version: 1.0.0
+
+### /api/v1/categories/
+
+#### GET
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| limit | query | Number of results to return per page. | No | integer |
+| offset | query | The initial index from which to return the results. | No | integer |
+
+##### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 |  |
+
+##### Security
+
+| Security Schema | Scopes |
+| --- | --- |
+| basicAuth | |
+
+### /api/v1/categories/{id}/
+
+#### GET
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| id | path |  | Yes | integer |
+
+##### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 |  |
+
+##### Security
+
+| Security Schema | Scopes |
+| --- | --- |
+| basicAuth | |
+
+### /api/v1/categories/{id}/subcategories/
+
+#### GET
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| id | path |  | Yes | integer |
+
+##### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 |  |
+
+##### Security
+
+| Security Schema | Scopes |
+| --- | --- |
+| basicAuth | |
+
+### /api/v1/products/
+
+#### GET
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| limit | query | Number of results to return per page. | No | integer |
+| offset | query | The initial index from which to return the results. | No | integer |
+
+##### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 |  |
+
+##### Security
+
+| Security Schema | Scopes |
+| --- | --- |
+| basicAuth | |
+
+#### POST
+##### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 201 |  |
+
+##### Security
+
+| Security Schema | Scopes |
+| --- | --- |
+| basicAuth | |
+
+### /api/v1/products/{id}/
+
+#### GET
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| id | path | A unique integer value identifying this product. | Yes | integer |
+
+##### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 |  |
+
+##### Security
+
+| Security Schema | Scopes |
+| --- | --- |
+| basicAuth | |
+
+#### PUT
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| id | path | A unique integer value identifying this product. | Yes | integer |
+
+##### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 |  |
+
+##### Security
+
+| Security Schema | Scopes |
+| --- | --- |
+| basicAuth | |
+
+#### PATCH
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| id | path | A unique integer value identifying this product. | Yes | integer |
+
+##### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 |  |
+
+##### Security
+
+| Security Schema | Scopes |
+| --- | --- |
+| basicAuth | |
+
+#### DELETE
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| id | path | A unique integer value identifying this product. | Yes | integer |
+
+##### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 204 | No response body |
+
+##### Security
+
+| Security Schema | Scopes |
+| --- | --- |
+| basicAuth | |
+
+
 ### Cart service API
 
 ```http://localhost:8003/api/schema/swagger-ui/#/```
+# Cart service API
+Cart microservice
+
+## Version: 1.0.0
+
+### /api/v1/cart/
+
+#### GET
+##### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 | No response body |
+
+##### Security
+
+| Security Schema | Scopes |
+| --- | --- |
+| basicAuth | |
+
+### /api/v1/cart/add/
+
+#### POST
+##### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 | No response body |
+
+##### Security
+
+| Security Schema | Scopes |
+| --- | --- |
+| basicAuth | |
+
 
 ### Reviews
 
 ```http://localhost:8004/api/schema/swagger-ui/#/```
+
+# Reviews service API
+Reviews microservice
+
+## Version: 1.0.0
+
+### /api/v1/reviews/
+
+#### POST
+##### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 | No response body |
+
+##### Security
+
+| Security Schema | Scopes |
+| --- | --- |
+| basicAuth | |
+
+### /api/v1/reviews/{product_id}/
+
+#### GET
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| limit | query | Number of results to return per page. | No | integer |
+| offset | query | The initial index from which to return the results. | No | integer |
+| product_id | path |  | Yes | integer |
+
+##### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 |  |
+
+##### Security
+
+| Security Schema | Scopes |
+| --- | --- |
+| basicAuth | |
+
+### /api/v1/reviews/{review_id}/
+
+#### GET
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| review_id | path |  | Yes | integer |
+
+##### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 |  |
+
+##### Security
+
+| Security Schema | Scopes |
+| --- | --- |
+| basicAuth | |
+
 
 
 ## How to run
