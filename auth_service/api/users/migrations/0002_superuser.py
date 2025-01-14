@@ -20,7 +20,9 @@ def create_superuser(apps, schema_editor):
 
 def delete_superuser(apps, schema_editor):
     User = apps.get_model("users", "CustomUser")
-    admin = User.objects.get(pk=1)
+    DJ_SU_EMAIL = os.environ.get("DJ_SU_EMAIL")
+
+    admin = User.objects.get(email=DJ_SU_EMAIL)
     if admin.is_superuser:
         admin.delete()
     else:
