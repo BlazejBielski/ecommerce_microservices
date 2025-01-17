@@ -20,7 +20,7 @@ class CustomUserManager(BaseUserManager["CustomUser"]):
         email = self.normalize_email(email)
         user = self.model(email=email, username=username, **kwargs)
         user.is_active = False
-        user.password = make_password(password)
+        user.password = make_password(password, salt=None, hasher='default')
         user.save()
 
         return user
@@ -31,7 +31,6 @@ class CustomUserManager(BaseUserManager["CustomUser"]):
         user.is_active = True
         user.is_superuser = True
         user.is_staff = True
-        user.is_admin = True
         user.save()
 
         return user
