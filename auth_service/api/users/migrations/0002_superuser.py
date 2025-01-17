@@ -15,11 +15,14 @@ def create_superuser(apps, schema_editor):
         email=DJ_SU_EMAIL,
         password=DJ_SU_PASSWORD,
     )
+    User.is_active = True
 
 
 def delete_superuser(apps, schema_editor):
     User = apps.get_model("users", "CustomUser")
-    admin = User.objects.get(pk=1)
+    DJ_SU_EMAIL = os.environ.get("DJ_SU_EMAIL")
+
+    admin = User.objects.get(email=DJ_SU_EMAIL)
     if admin.is_superuser:
         admin.delete()
     else:

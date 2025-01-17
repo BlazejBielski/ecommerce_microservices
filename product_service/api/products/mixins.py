@@ -9,4 +9,4 @@ class CacheMixin:
         return self.cache_timeout
 
     def dispatch(self, *args, **kwargs):
-        return method_decorator(cache_page(self.get_cache_timeout()))()
+        return cache_page(self.get_cache_timeout())(super(CacheMixin, self).dispatch)(*args, **kwargs)

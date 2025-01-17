@@ -5,6 +5,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import get_object_or_404
+import requests
 
 from .filters import ProductFilter
 from .mixins import CacheMixin
@@ -40,6 +41,11 @@ class ProductViewSet(CacheMixin, ModelViewSet):
         return Response(data=self.serializer_class(product).data, status=status.HTTP_200_OK)
 
     def create(self, request, *args, **kwargs):
+
+        auth_response = requests.get(f"http://auth_service/users/{request.user.user_id}/")
+        if auth_response.status_code != 200:
+            return Response(auth_response.json(), status=status.HTTP_401_UNAUTHORIZED)
+
         serializer = AddProductWithCategoriesAndSubcategoriesSerializer(data=request.data, context={'product_pk': kwargs.get('product_pk')})
         serializer.is_valid(raise_exception=True)
 
