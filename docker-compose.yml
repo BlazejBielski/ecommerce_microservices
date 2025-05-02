@@ -140,6 +140,17 @@ services:
     networks:
       - backend_services
 
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - kong
+    networks:
+      - backend_services
+
   kong:
     image: kong:3.0.0-alpine
     container_name: kong
