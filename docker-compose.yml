@@ -156,6 +156,8 @@ services:
       - "--providers.consulCatalog=true"
       - "--providers.consulCatalog.endpoint.address=consul:8500"
       - "--entryPoints.web.address=:80"
+    depends_on:
+      - consul
     ports:
       - "80:80"            # HTTP traffic
       - "8080:8080"        # Traefik Dashboard
