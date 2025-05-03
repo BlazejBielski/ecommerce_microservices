@@ -146,32 +146,21 @@ services:
       context: ./frontend
     ports:
       - "5173:5173"
-    depends_on:
-      - kong
     networks:
       - backend_services
 
-  kong:
-    image: kong:3.0.0-alpine
-    container_name: kong
-    restart: always
-    environment:
-      KONG_DATABASE: "off"
-      KONG_PROXY_ACCESS_LOG: /dev/stdout
-      KONG_PROXY_ERROR_LOG: /dev/stderr
-      KONG_ADMIN_ACCESS_LOG: /dev/stdout
-      KONG_ADMIN_ERROR_LOG: /dev/stderr
-      KONG_PROXY_LISTEN: 0.0.0.0:8080
-      KONG_ADMIN_LISTEN: 0.0.0.0:8081
-      KONG_DNS_RESOLVER: 172.0.0.11:8600
-      KONG_DNS_ORDER: A,SRV
-    depends_on:
-      - consul
+  traefik:
+    image: traefik:v3.3
+    command:
+      - "--api.insecure=true"
+      - "--providers.consulCatalog=true"
+      - "--providers.consulCatalog.endpoint.address=consul:8500"
+      - "--entryPoints.web.address=:80"
+    ports:
+      - "80:80"            # HTTP traffic
+      - "8080:8080"        # Traefik Dashboard
     networks:
       - backend_services
-    ports:
-      - "8080:8080"  # Proxy port
-      - "8081:8081"  # Admin API port
 
   redis:
     container_name: redis
