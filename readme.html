@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>README</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<h1 id="e-commerce-system-with-microservices">E-commerce system with
+microservices</h1>
+<h2 id="main-technologies">Main technologies</h2>
+<ul>
+<li>Python</li>
+<li>Django</li>
+<li>Django REST Framework (DRF)</li>
+<li>PostgreSQL</li>
+<li>JWT (JSON Web Token)</li>
+<li>Redis</li>
+<li>Traefik</li>
+<li>Consul</li>
+<li>Docker</li>
+<li>Docker Compose</li>
+<li>Vite (frontend)</li>
+</ul>
+<hr />
+<h2 id="description">Description</h2>
+<p>The <strong>eCommerce with Microservices</strong> project tests the
+Django REST Framework for microservices-based architectures.</p>
+<p>The project uses the following technologies:</p>
+<ol type="1">
+<li><p><strong>Docker</strong> – containerises services.</p></li>
+<li><p><strong>Docker Compose</strong> – orchestrates multi-container
+setup.</p></li>
+<li><p><strong>Traefik</strong> – acts as a dynamic <strong>API
+Gateway</strong> and <strong>Reverse Proxy</strong>, routes HTTP(S)
+traffic to appropriate microservices based on domain names and paths. It
+also manages <strong>SSL certificates</strong> (Let’s Encrypt) and
+integrates with <strong>Consul</strong> for service discovery.</p>
+<figure>
+<img src="api_gateway/traefik.png" alt="Traefik screenshot" />
+<figcaption aria-hidden="true">Traefik screenshot</figcaption>
+</figure></li>
+<li><p><strong>Consul</strong> – provides <strong>Service
+Discovery</strong> and simple <strong>Load Balancing</strong> by
+registering available services and their health.</p>
+<figure>
+<img src="service_discovery/consul.png" alt="Consul screenshot" />
+<figcaption aria-hidden="true">Consul screenshot</figcaption>
+</figure></li>
+<li><p><strong>PostgreSQL</strong> – used as the <strong>relational
+database (RDBMS)</strong>.</p></li>
+<li><p><strong>Redis</strong> – in-memory <strong>cache</strong> to
+reduce database load.</p></li>
+<li><p><strong>JWT</strong> – used for secure authentication and
+authorization between services.</p></li>
+<li><p><strong>Vite</strong> – for building the frontend.</p></li>
+</ol>
+<figure>
+<img src="frontend/frontend.png" alt="Frontend screenshot" />
+<figcaption aria-hidden="true">Frontend screenshot</figcaption>
+</figure>
+<blockquote>
+<p><strong>Note:</strong> Each microservice has its <strong>own database
+instance</strong>.</p>
+</blockquote>
+<hr />
+<h2 id="logging">Logging</h2>
+<p>All services log their activity. Each service has a <code>logs</code>
+directory. The logging level is set in the <code>api.env</code> file.
+Available logging levels:</p>
+<ul>
+<li>DEBUG</li>
+<li>INFO</li>
+<li>ERROR</li>
+</ul>
+<hr />
+<h2 id="service-discovery-and-load-balancer">Service Discovery and Load
+Balancer</h2>
+<p>Consul handles service discovery and load balancing. All services
+register automatically using the <code>service_registrar</code> script
+during startup (via Docker Compose).</p>
+<p>Services are visible at:</p>
+<pre><code>http://localhost:8500/</code></pre>
+<figure>
+<img src="service_discovery/consul.png" alt="Service list screenshot" />
+<figcaption aria-hidden="true">Service list screenshot</figcaption>
+</figure>
+<hr />
+<h2 id="class-diagrams">Class Diagrams</h2>
+<h3 id="auth-service">Auth Service</h3>
+<figure>
+<img src="auth_service/auth_db.png" alt="class diagram Auth service" />
+<figcaption aria-hidden="true">class diagram Auth service</figcaption>
+</figure>
+<h3 id="product-service">Product Service</h3>
+<figure>
+<img src="product_service/product_db.png"
+alt="class diagram Product service" />
+<figcaption aria-hidden="true">class diagram Product
+service</figcaption>
+</figure>
+<h3 id="cart-service">Cart Service</h3>
+<figure>
+<img src="cart_service/cart_db.png" alt="class diagram Cart service" />
+<figcaption aria-hidden="true">class diagram Cart service</figcaption>
+</figure>
+<h3 id="review-service">Review Service</h3>
+<figure>
+<img src="review_service/review_db.png"
+alt="class diagram Review service" />
+<figcaption aria-hidden="true">class diagram Review service</figcaption>
+</figure>
+<hr />
+<h2 id="api-documentation">API Documentation</h2>
+<h3 id="auth-service-1">Auth Service</h3>
+<pre><code>http://localhost:8001/api/schema/swagger-ui/#/</code></pre>
+<h4 id="endpoints">Endpoints</h4>
+<table>
+<colgroup>
+<col style="width: 8%" />
+<col style="width: 35%" />
+<col style="width: 55%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>Endpoint</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>POST</td>
+<td><code>/api/v1/token/</code></td>
+<td>Login, returns access &amp; refresh tokens</td>
+</tr>
+<tr class="even">
+<td>POST</td>
+<td><code>/api/v1/token/refresh/</code></td>
+<td>Refresh access token</td>
+</tr>
+<tr class="odd">
+<td>GET</td>
+<td><code>/api/v1/users/</code></td>
+<td>Get user list</td>
+</tr>
+<tr class="even">
+<td>POST</td>
+<td><code>/api/v1/users/</code></td>
+<td>Create new user</td>
+</tr>
+<tr class="odd">
+<td>PUT</td>
+<td><code>/api/v1/users/</code></td>
+<td>Update user</td>
+</tr>
+<tr class="even">
+<td>DELETE</td>
+<td><code>/api/v1/users/</code></td>
+<td>Delete user</td>
+</tr>
+<tr class="odd">
+<td>GET</td>
+<td><code>/api/v1/users/{id}/</code></td>
+<td>Get user by ID</td>
+</tr>
+<tr class="even">
+<td>POST</td>
+<td><code>/api/v1/users/{id}/</code></td>
+<td>Not standard, additional logic</td>
+</tr>
+<tr class="odd">
+<td>PUT</td>
+<td><code>/api/v1/users/{id}/</code></td>
+<td>Update user by ID</td>
+</tr>
+<tr class="even">
+<td>DELETE</td>
+<td><code>/api/v1/users/{id}/</code></td>
+<td>Delete user by ID</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="product-service-1">Product Service</h3>
+<pre><code>http://localhost:8002/api/schema/swagger-ui/#/</code></pre>
+<h4 id="endpoints-1">Endpoints</h4>
+<table>
+<colgroup>
+<col style="width: 8%" />
+<col style="width: 54%" />
+<col style="width: 36%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>Endpoint</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>GET</td>
+<td><code>/api/v1/categories/</code></td>
+<td>List categories</td>
+</tr>
+<tr class="even">
+<td>GET</td>
+<td><code>/api/v1/categories/{id}/</code></td>
+<td>Category by ID</td>
+</tr>
+<tr class="odd">
+<td>GET</td>
+<td><code>/api/v1/categories/{id}/subcategories/</code></td>
+<td>Subcategories of a category</td>
+</tr>
+<tr class="even">
+<td>GET</td>
+<td><code>/api/v1/products/</code></td>
+<td>List products</td>
+</tr>
+<tr class="odd">
+<td>POST</td>
+<td><code>/api/v1/products/</code></td>
+<td>Create product</td>
+</tr>
+<tr class="even">
+<td>GET</td>
+<td><code>/api/v1/products/{id}/</code></td>
+<td>Product details</td>
+</tr>
+<tr class="odd">
+<td>PUT</td>
+<td><code>/api/v1/products/{id}/</code></td>
+<td>Update product</td>
+</tr>
+<tr class="even">
+<td>PATCH</td>
+<td><code>/api/v1/products/{id}/</code></td>
+<td>Partially update product</td>
+</tr>
+<tr class="odd">
+<td>DELETE</td>
+<td><code>/api/v1/products/{id}/</code></td>
+<td>Delete product</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="cart-service-1">Cart Service</h3>
+<pre><code>http://localhost:8003/api/schema/swagger-ui/#/</code></pre>
+<h4 id="endpoints-2">Endpoints</h4>
+<table>
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>Endpoint</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>GET</td>
+<td><code>/api/v1/cart/</code></td>
+<td>Retrieve cart contents</td>
+</tr>
+<tr class="even">
+<td>POST</td>
+<td><code>/api/v1/cart/add/</code></td>
+<td>Add item to cart</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="review-service-1">Review Service</h3>
+<pre><code>http://localhost:8004/api/schema/swagger-ui/#/</code></pre>
+<h4 id="endpoints-3">Endpoints</h4>
+<table>
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>Endpoint</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>POST</td>
+<td><code>/api/v1/reviews/</code></td>
+<td>Add a review</td>
+</tr>
+<tr class="even">
+<td>GET</td>
+<td><code>/api/v1/reviews/{product_id}/</code></td>
+<td>Get reviews for a product</td>
+</tr>
+<tr class="odd">
+<td>GET</td>
+<td><code>/api/v1/reviews/{review_id}/</code></td>
+<td>Get review by ID</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="how-to-run">How to run</h2>
+<ol type="1">
+<li><p>Clone or unzip the project:</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone git@github.com:BlazejBielski/ecommerce_microservices.git</span></code></pre></div></li>
+<li><p>Go to the project directory and copy environment variable
+templates:</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> envs/api.default.env envs/api.env</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> envs/postgres.default.env envs/db.env</span></code></pre></div></li>
+<li><p>Fill <code>api.env</code> with variables:</p>
+<pre class="env"><code>DJ_SECRET_KEY=&quot;&lt;your-generated-secret-key&gt;&quot;
+DJ_DEBUG=1
+DJ_ALLOWED_HOSTS=localhost 0.0.0.0 127.0.0.1
+LOGGING_LVL=INFO
+
+DJ_SU_NAME=admin
+DJ_SU_EMAIL=admin@example.com
+DJ_SU_PASSWORD=admin123</code></pre>
+<p>To generate secret key:</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> django.core.management.utils <span class="im">import</span> get_random_secret_key</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>get_random_secret_key()</span></code></pre></div></li>
+<li><p>Fill <code>db.env</code> with variables:</p>
+<pre class="env"><code>POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+POSTGRES_DB=postgres
+POSTGRES_HOST=postgres
+POSTGRES_PORT=5432
+
+DB_CONNECTION_STRING=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}</code></pre></li>
+<li><p>Start containers:</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> compose up <span class="at">--build</span></span></code></pre></div></li>
+<li><p>Access services via:</p></li>
+</ol>
+<ul>
+<li><strong>Consul UI</strong>: <a
+href="http://localhost:8500/">http://localhost:8500/</a></li>
+<li><strong>Traefik Dashboard</strong>: <a
+href="http://localhost:8080/">http://localhost:8080/</a></li>
+<li><strong>Swagger UI</strong> for each service (see above for
+URLs)</li>
+</ul>
+</body>
+</html>
