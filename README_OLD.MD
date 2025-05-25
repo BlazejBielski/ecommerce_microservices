@@ -3,27 +3,30 @@
 ## Main technologies
 * python
 * django
+* 
 * DRF
 * postgresql
 * JWT
 * redis
-* kong
+* traefik
 * consul
 * docker
 * docker compose
 
 ## Description
 
-The eCommerce with Microservices project tests the Django REST Framework for microservices-based projects. 
+The **eCommerce with Microservices** project tests the Django REST Framework for microservices-based architectures.
 The project uses the following technologies:
-1. Docker is used for containerisation.
-2. Consul is used as Service Discovery and as a Load Balancer.
-3. Docker Compose is used to manage the process.
-4. Consul is used to find services and balance the workload.
-5. Kong is used as an API Gateway.
-6. Postrgesql is used as a RDBMS.
-7. Redis is used as a Cache.
-8. JWT is the key to securing web applications.
+
+1. **Docker** – used for containerisation of services.
+2. **Docker Compose** – manages the orchestration of multi-container applications.
+3. **Traefik** – acts as a dynamic **API Gateway** and **Reverse Proxy**, routing HTTP(S) traffic to the appropriate microservices based on domain names and paths. It also handles **SSL certificate management** (via Let’s Encrypt) and integrates with **Consul** for service discovery.
+4. **Consul** – used as **Service Discovery** and provides basic **Load Balancing** by tracking available service instances and their health.
+5. **PostgreSQL** – used as the **relational database (RDBMS)** for data persistence.
+6. **Redis** – used as an **in-memory cache** to improve performance and reduce database load.
+7. **JWT (JSON Web Tokens)** – used to secure communication between services and implement authentication/authorization mechanisms.
+7. **Vite** – for frontend.
+
 
 **All microservices have they own instance of database**
 
